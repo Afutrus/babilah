@@ -154,12 +154,22 @@
         function closeModal() { document.getElementById('orderModal').style.display = 'none'; }
 
         function kirimKeAdmin() {
-            const id = document.getElementById('res-id').innerText;
-            const nick = document.getElementById('res-nickname').innerText;
-            const prod = document.getElementById('res-product').innerText;
-            const text = `Halo Admin, saya mau bongkar:\nID: ${id}\nNick: ${nick}\nPesanan: ${prod}`;
-            window.open(`https://wa.me/628123456789?text=${encodeURIComponent(text)}`, '_blank');
-        }
+    const id = document.getElementById('res-id').innerText;
+    const nick = document.getElementById('res-nickname').innerText;
+    const prod = document.getElementById('res-product').innerText;
+    const price = document.getElementById('res-price').innerText;
+
+    // Pastikan ID ditemukan sebelum lanjut
+    if (nick === "Mengecek..." || nick === "ID Tidak Ditemukan") {
+        alert("Harap tunggu pengecekan ID selesai atau pastikan ID benar!");
+        return;
+    }
+
+    // Mengarahkan ke detail.html sambil membawa data game
+    const detailUrl = `detail.html?id=${encodeURIComponent(id)}&nick=${encodeURIComponent(nick)}&prod=${encodeURIComponent(prod)}&price=${encodeURIComponent(price)}`;
+    
+    window.location.href = detailUrl;
+}
     </script>
 </body>
 </html>
