@@ -53,14 +53,18 @@
         </header>
 
         <div class="admin-box">
-            <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID ADMIN:</p>
-            <div class="id-display">
-                <img src="koin.png" class="id-icon" alt="Coin">
-                <span id="targetId" class="id-number">2422380</span>
-                <button class="copy-btn" onclick="copyID()">SALIN</button>
-            </div>
-            <p style="margin:0; font-size: 11px; color: #d63031; font-weight: bold;">*Pastikan nominal dan ID tujuan sudah benar!</p>
-        </div>
+    <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID ADMIN:</p>
+    <div class="id-display" style="display: flex; align-items: center; justify-content: center; gap: 12px; margin: 10px 0;">
+        <img src="id.png" alt="ID Logo" style="width: 40px; height: 40px; object-fit: contain;">
+        
+        <span id="targetId" class="id-number" style="font-size: 26px; font-weight: 900; color: #000; letter-spacing: 1px;">2422380</span>
+        
+        <button onclick="copyID()" class="copy-btn" style="background: #FD7100; color: white; border: none; padding: 5px 12px; border-radius: 8px; font-size: 12px; cursor: pointer; font-weight: bold; transition: 0.2s;">
+            SALIN
+        </button>
+    </div>
+    <p style="margin:0; font-size: 11px; color: #d63031; font-weight: bold;">*Pastikan nominal dan ID tujuan sudah benar!</p>
+</div>
 
         <div class="modal-3d-board" style="display: block; position: relative; width: 100%; margin-top: 5px;">
             <div class="modal-header">UPLOAD BUKTI SS</div>
