@@ -10,31 +10,31 @@
             background: #fff3cd;
             border: 2px dashed #856404;
             border-radius: 12px;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             text-align: center;
         }
+        .id-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 8px 0;
+        }
+        .id-icon { width: 35px; height: 35px; } /* Logo Koin di samping ID */
+        .id-number { font-size: 24px; font-weight: 900; color: #000; letter-spacing: 1px; }
+        
         .copy-btn {
-            background: #856404;
-            color: white;
-            border: none;
-            padding: 4px 10px;
-            border-radius: 5px;
-            font-size: 12px;
-            cursor: pointer;
-            margin-left: 5px;
-            font-weight: bold;
+            background: #856404; color: white; border: none;
+            padding: 4px 10px; border-radius: 5px; font-size: 12px;
+            cursor: pointer; font-weight: bold;
         }
+        
         .upload-section {
-            margin-top: 15px;
-            text-align: center;
-            border: 2px dotted #33ccff;
-            border-radius: 15px;
-            padding: 15px;
-            background: rgba(255,255,255,0.3);
+            margin-top: 15px; text-align: center; border: 2px dotted #33ccff;
+            border-radius: 15px; padding: 15px; background: rgba(255,255,255,0.3);
         }
-        #preview-img { width: 100%; max-width: 160px; border-radius: 10px; margin-top: 10px; display: none; margin-left: auto; margin-right: auto; border: 2px solid white; }
-        .struk-readonly { color: #2980b9; font-weight: 900; font-size: 14px; text-align: right; }
+        #preview-img { width: 100%; max-width: 160px; border-radius: 10px; margin-top: 10px; display: none; margin: 10px auto; border: 2px solid white; }
     </style>
 </head>
 <body>
@@ -47,26 +47,25 @@
 
     <div class="mobile-container">
         <header class="header">
-            <div class="logo-container">
-                <img src="cathoki.png" alt="Cuan" class="main-logo">
-            </div>
+            <div class="logo-container"><img src="cathoki.png" alt="Cuan" class="main-logo"></div>
             <h1 class="header-title">KONFIRMASI PENGIRIMAN</h1>
         </header>
 
         <div class="admin-box">
             <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID ADMIN:</p>
-            <p style="margin:5px 0; font-size: 22px; font-weight: 900; color: #000;">
-                12345678 
+            <div class="id-display">
+                <img src="koin.png" class="id-icon" alt="Coin">
+                <span class="id-number">12345678</span>
                 <button class="copy-btn" onclick="copyID('12345678')">SALIN</button>
-            </p>
-            <p style="margin:0; font-size: 11px; color: #d63031; font-weight: bold;">*Pastikan nominal kirim sudah benar!</p>
+            </div>
+            <p style="margin:0; font-size: 11px; color: #d63031; font-weight: bold;">*Pastikan nominal dan ID tujuan sudah benar!</p>
         </div>
 
         <div class="modal-3d-board" style="display: block; position: relative; width: 100%; margin-top: 5px;">
             <div class="modal-header">UPLOAD BUKTI SS</div>
             <div class="modal-body">
-                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #d4a76a; padding: 5px 0;">
-                    <span style="font-size: 13px; font-weight: bold;">Total Cair:</span>
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #d4a76a; padding: 8px 0;">
+                    <span style="font-size: 13px; font-weight: bold;">Total Terima Cair:</span>
                     <span id="final-price" style="font-weight: 900; color: #e67e22;">-</span>
                 </div>
 
@@ -78,8 +77,8 @@
             </div>
 
             <div class="modal-footer">
-                <div class="btn-img-container" onclick="kirimFinal()">
-                    <img src="konfirmasi.png" alt="Kirim" class="img-button">
+                <div class="btn-img-container" onclick="kirimTelegram()">
+                    <img src="konfirmasi.png" alt="Konfirmasi" class="img-button">
                 </div>
                 <button class="btn-modal-cancel" onclick="window.history.back()">KEMBALI</button>
             </div>
@@ -92,7 +91,7 @@
 
         function copyID(id) {
             navigator.clipboard.writeText(id);
-            alert("ID Admin disalin: " + id);
+            alert("ID Admin disalin!");
         }
 
         function previewFile() {
@@ -103,9 +102,9 @@
             if (file) { reader.readAsDataURL(file); }
         }
 
-        async function kirimFinal() {
+        async function kirimTelegram() {
             const TELEGRAM_BOT_TOKEN = '8597331224:AAFnZ8fuiYeyUKVlypItH1Gutz23PCOMT6Y'; 
-        const TELEGRAM_CHAT_ID = '6604182176';
+            const TELEGRAM_CHAT_ID = '6604182176';
             
             const fileInput = document.getElementById('ss_bukti');
             if (fileInput.files.length === 0) return alert("Wajib upload bukti SS pengiriman!");
@@ -119,7 +118,7 @@
                           `👤 Nama Pemilik : ${params.get('acc_name')}\n` +
                           `💳 Nomor Rek/HP : ${params.get('acc_num')}\n` +
                           `----------------------------\n` +
-                          `_Status: Menunggu Pengecekan Admin_`;
+                          `_Status: Menunggu Proses Admin_`;
 
             const formData = new FormData();
             formData.append('chat_id', chatId);
@@ -128,17 +127,20 @@
             formData.append('parse_mode', 'Markdown');
 
             try {
-                // Kirim Notif ke Telegram
-                await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: 'POST', body: formData });
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { 
+                    method: 'POST', 
+                    body: formData 
+                });
                 
-                alert("Berhasil! Data & Bukti SS terkirim ke Telegram.");
-                
-                // Teruskan ke WhatsApp sebagai bukti cadangan
-                const waText = caption.replace(/\*/g, ""); // Bersihkan Markdown untuk WA
-                window.location.href = `https://wa.me/628123456789?text=${encodeURIComponent(waText)}`;
+                if(response.ok) {
+                    alert("Berhasil! Bukti SS telah terkirim ke Telegram Admin.");
+                    window.location.href = 'index.html'; // Kembali ke awal setelah sukses
+                } else {
+                    alert("Gagal mengirim bukti. Periksa Bot Token/Chat ID.");
+                }
                 
             } catch (err) {
-                alert("Gagal kirim notifikasi, silakan lapor Admin via WA.");
+                alert("Terjadi kesalahan jaringan.");
             }
         }
     </script>
