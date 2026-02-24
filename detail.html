@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Pencairan - Neo Party</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="cloud-container">
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+    </div>
+
+    <div class="mobile-container">
+        <header class="header">
+            <div class="logo-container">
+                <img src="cathoki.png" alt="Cuan" class="main-logo">
+            </div>
+            <h1 class="header-title">DATA PENCAIRAN</h1>
+        </header>
+
+        <div class="card-3d">
+            <div class="card-tag" id="selectedMethod">Metode: -</div>
+            
+            <div class="form-body">
+                <div class="w-full space-y-4 text-left">
+                    <div class="input-group">
+                        <label>Nama Pemilik Rekening / E-Wallet</label>
+                        <input type="text" id="acc_name" placeholder="Masukkan nama lengkap..." required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Nomor Rekening / HP E-Wallet</label>
+                        <input type="number" id="acc_number" placeholder="Contoh: 0812xxx atau 7123xxx" required>
+                    </div>
+                </div>
+
+                <div class="btn-img-container" onclick="goToNextStep()" style="margin-top: 20px;">
+                    <img src="konfirmasi.png" alt="Lanjut" class="img-button">
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note-3d">
+            Pastikan nama dan nomor rekening sesuai untuk mempercepat proses pencairan dana.
+        </div>
+    </div>
+
+    <script>
+        // Mengambil data (Parameter) yang dikirim dari index.html
+        const params = new URLSearchParams(window.location.search);
+        
+        // Update label tag dengan nominal yang dipilih (misal: Bongkar 1B)
+        const prod = params.get('prod') || 'Bongkar';
+        document.getElementById('selectedMethod').innerText = "Item: " + prod;
+
+        function goToNextStep() {
+            const name = document.getElementById('acc_name').value;
+            const number = document.getElementById('acc_number').value;
+
+            // Validasi input
+            if (!name || !number) {
+                alert("Harap isi Nama dan Nomor Rekening dengan benar!");
+                return;
+            }
+
+            // Menambahkan data baru (Nama & No Rekening) ke dalam parameter yang sudah ada
+            params.set('acc_name', name);
+            params.set('acc_num', number);
+
+            // Mengarahkan ke halaman struk final (detailv2.html) membawa seluruh data
+            const nextUrl = 'detailv2.html?' + params.toString();
+            window.location.href = nextUrl;
+        }
+    </script>
+</body>
+</html>
