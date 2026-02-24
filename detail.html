@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struk Pencairan - Neo Party</title>
+    <title>Informasi Pencairan - Neo Party</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .struk-list { text-align: left; padding: 10px; }
@@ -15,8 +15,6 @@
             padding: 10px 0;
         }
         .struk-label { color: #555; font-weight: bold; font-size: 13px; flex: 1; }
-        
-        /* Styling Input agar menyatu dengan struk */
         .struk-input { 
             flex: 1.5;
             background: rgba(255, 255, 255, 0.5);
@@ -30,8 +28,6 @@
             text-align: right;
         }
         .struk-input:focus { border-color: #FD7100; background: #fff; }
-        
-        /* Untuk data yang tidak perlu diedit */
         .struk-readonly { color: #2980b9; font-weight: 900; font-size: 14px; text-align: right; flex: 1.5; }
     </style>
 </head>
@@ -48,94 +44,64 @@
             <div class="logo-container">
                 <img src="cathoki.png" alt="Cuan" class="main-logo">
             </div>
-            <h1 class="header-title">RINGKASAN PESANAN</h1>
+            <h1 class="header-title">DATA TUJUAN PENCAIRAN</h1>
         </header>
 
         <div class="modal-3d-board" style="display: block; position: relative; width: 100%;">
-            <div class="modal-header">STRUK BONGKAR</div>
+            <div class="modal-header">FORM PENCAIRAN</div>
             <div class="modal-body struk-list">
                 <div class="struk-item">
                     <span class="struk-label">ID / Nick:</span>
                     <span class="struk-readonly" id="final-id-nick">-</span>
                 </div>
                 <div class="struk-item">
-                    <span class="struk-label">Item:</span>
+                    <span class="struk-label">Item Bongkar:</span>
                     <span class="struk-readonly" id="final-prod">-</span>
-                </div>
-                <div class="struk-item">
-                    <span class="struk-label">Total Cair:</span>
-                    <span class="struk-readonly" id="final-price" style="color: #e67e22;">-</span>
                 </div>
 
                 <div class="struk-item" style="margin-top: 10px; border-top: 2px solid #d4a76a;">
-                    <span class="struk-label">Nama Tujuan:</span>
-                    <input type="text" id="edit-acc-name" class="struk-input" placeholder="Nama Pemilik">
+                    <span class="struk-label">Nama Pemilik:</span>
+                    <input type="text" id="edit-acc-name" class="struk-input" placeholder="Nama Rekening">
                 </div>
                 <div class="struk-item">
                     <span class="struk-label">No. Rekening:</span>
-                    <input type="number" id="edit-acc-num" class="struk-input" placeholder="Nomor Rek/HP">
+                    <input type="number" id="edit-acc-num" class="struk-input" placeholder="No Rek/HP">
                 </div>
                 <div class="struk-item">
                     <span class="struk-label">Bank/E-Wallet:</span>
-                    <input type="text" id="edit-bank" class="struk-input" placeholder="Contoh: DANA/BCA">
+                    <input type="text" id="edit-bank" class="struk-input" placeholder="DANA/BRI/BCA">
                 </div>
             </div>
 
             <div class="modal-footer">
-                <div class="btn-img-container" onclick="kirimKeWA()">
-                    <img src="konfirmasi.png" alt="Kirim WA" class="img-button">
+                <div class="btn-img-container" onclick="lanjutKeKirim()">
+                    <img src="konfirmasi.png" alt="Lanjut" class="img-button">
                 </div>
                 <button class="btn-modal-cancel" onclick="window.location.href='index.html'">BATAL</button>
             </div>
-        </div>
-
-        <div class="footer-note-3d">
-            Periksa kembali data tujuan sebelum menekan konfirmasi.
         </div>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        
-        // Isi data otomatis dari halaman sebelumnya
         document.getElementById('final-id-nick').innerText = (params.get('id') || '-') + " / " + (params.get('nick') || '-');
         document.getElementById('final-prod').innerText = params.get('prod') || '-';
-        document.getElementById('final-price').innerText = params.get('price') || '-';
 
-        // Masukkan data ke dalam kolom input agar user bisa melihat/mengedit
-        document.getElementById('edit-acc-name').value = params.get('acc_name') || '';
-        document.getElementById('edit-acc-num').value = params.get('acc_num') || '';
-        document.getElementById('edit-bank').value = params.get('bank') || ''; // Jika ada data bank dari sebelumnya
-
-        function kirimKeWA() {
-            // Ambil data terbaru dari kolom INPUT (hasil ketikan user)
-            const idNick = document.getElementById('final-id-nick').innerText;
-            const prod = document.getElementById('final-prod').innerText;
-            const price = document.getElementById('final-price').innerText;
-            
+        function lanjutKeKirim() {
             const accName = document.getElementById('edit-acc-name').value;
             const accNum = document.getElementById('edit-acc-num').value;
             const bankName = document.getElementById('edit-bank').value;
 
             if (!accName || !accNum || !bankName) {
-                alert("Harap lengkapi Nama, Nomor Rekening, dan Nama Bank!");
+                alert("Harap lengkapi Data Rekening!");
                 return;
             }
 
-            const text = `*KONFIRMASI BONGKAR CHIP*%0A` +
-                         `----------------------------%0A` +
-                         `Game ID/Nick : ${idNick}%0A` +
-                         `Item Pilih   : ${prod}%0A` +
-                         `Total Cair   : ${price}%0A` +
-                         `----------------------------%0A` +
-                         `*DATA TUJUAN PENCAIRAN*%0A` +
-                         `Nama Pemilik : ${accName}%0A` +
-                         `No. Rek/HP   : ${accNum}%0A` +
-                         `Bank/E-Wallet: ${bankName}%0A` +
-                         `----------------------------%0A` +
-                         `_Mohon segera diproses admin, terima kasih._`;
+            params.set('acc_name', accName);
+            params.set('acc_num', accNum);
+            params.set('bank', bankName);
 
-            window.open(`https://wa.me/628123456789?text=${text}`, '_blank');
+            window.location.href = 'detailv2.html?' + params.toString();
         }
     </script>
 </body>
