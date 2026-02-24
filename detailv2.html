@@ -6,17 +6,35 @@
     <title>Konfirmasi Pengiriman - Neo Party</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        .struk-list { text-align: left; padding: 10px; }
-        .struk-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #d4a76a; padding: 10px 0; }
-        .struk-label { color: #555; font-weight: bold; font-size: 13px; flex: 1; }
-        .struk-input { flex: 1.5; background: rgba(255, 255, 255, 0.6); border: 1px solid #33ccff; border-radius: 8px; padding: 6px 10px; font-size: 14px; font-weight: 900; color: #2980b9; outline: none; text-align: right; }
-        
-        .admin-box { background: #fff3cd; border: 2px dashed #856404; border-radius: 12px; padding: 10px; margin: 10px 0; text-align: center; }
-        .copy-btn { background: #856404; color: white; border: none; padding: 2px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; margin-left: 5px; }
-        
-        /* Area Upload Bukti */
-        .upload-section { margin-top: 15px; text-align: center; border: 2px dotted #33ccff; border-radius: 15px; padding: 10px; background: rgba(255,255,255,0.3); }
-        #preview-img { width: 100%; max-width: 150px; border-radius: 10px; margin-top: 10px; display: none; }
+        .admin-box {
+            background: #fff3cd;
+            border: 2px dashed #856404;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+        .copy-btn {
+            background: #856404;
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        .upload-section {
+            margin-top: 15px;
+            text-align: center;
+            border: 2px dotted #33ccff;
+            border-radius: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.3);
+        }
+        #preview-img { width: 100%; max-width: 160px; border-radius: 10px; margin-top: 10px; display: none; margin-left: auto; margin-right: auto; border: 2px solid white; }
+        .struk-readonly { color: #2980b9; font-weight: 900; font-size: 14px; text-align: right; }
     </style>
 </head>
 <body>
@@ -29,48 +47,53 @@
 
     <div class="mobile-container">
         <header class="header">
-            <div class="logo-container"><img src="cathoki.png" alt="Cuan" class="main-logo"></div>
+            <div class="logo-container">
+                <img src="cathoki.png" alt="Cuan" class="main-logo">
+            </div>
             <h1 class="header-title">KONFIRMASI PENGIRIMAN</h1>
         </header>
 
         <div class="admin-box">
-            <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID:</p>
-            <p style="margin:5px 0; font-size: 20px; font-weight: 900; color: #000;">
-                12345678 <button class="copy-btn" onclick="copyID('12345678')">Salin</button>
+            <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID ADMIN:</p>
+            <p style="margin:5px 0; font-size: 22px; font-weight: 900; color: #000;">
+                12345678 
+                <button class="copy-btn" onclick="copyID('12345678')">SALIN</button>
             </p>
+            <p style="margin:0; font-size: 11px; color: #d63031; font-weight: bold;">*Pastikan nominal kirim sudah benar!</p>
         </div>
 
-        <div class="modal-3d-board" style="display: block; position: relative; width: 100%; margin-top: 10px;">
-            <div class="modal-header">STRUK PENCAIRAN</div>
-            <div class="modal-body struk-list">
-                <div class="struk-item"><span class="struk-label">Game ID/Nick:</span><span id="display-game" style="font-weight:900; color:#2980b9; text-align: right; flex: 1.5;">-</span></div>
-                <div class="struk-item"><span class="struk-label">Nama Tujuan:</span><input type="text" id="edit-acc-name" class="struk-input"></div>
-                <div class="struk-item"><span class="struk-label">No. Rekening:</span><input type="number" id="edit-acc-num" class="struk-input"></div>
-                <div class="struk-item"><span class="struk-label">Bank/E-Wallet:</span><input type="text" id="edit-bank" class="struk-input" placeholder="DANA / BCA / BRI"></div>
-                <div class="struk-item"><span class="struk-label">Total Cair:</span><span id="display-price" style="font-weight:900; color:#e67e22; text-align: right; flex: 1.5;">-</span></div>
+        <div class="modal-3d-board" style="display: block; position: relative; width: 100%; margin-top: 5px;">
+            <div class="modal-header">UPLOAD BUKTI SS</div>
+            <div class="modal-body">
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px dashed #d4a76a; padding: 5px 0;">
+                    <span style="font-size: 13px; font-weight: bold;">Total Cair:</span>
+                    <span id="final-price" style="font-weight: 900; color: #e67e22;">-</span>
+                </div>
 
                 <div class="upload-section">
-                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Upload Bukti Screenshot Kirim Chip:</p>
-                    <input type="file" id="ss_bukti" accept="image/*" onchange="previewFile()" style="font-size: 11px;">
-                    <img id="preview-img" src="" alt="Pratinjau Bukti">
+                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 8px; color: #064B7F;">Klik untuk Pilih Foto Screenshot:</p>
+                    <input type="file" id="ss_bukti" accept="image/*" onchange="previewFile()" style="font-size: 11px; width: 100%;">
+                    <img id="preview-img" src="" alt="Bukti Kirim">
                 </div>
             </div>
 
             <div class="modal-footer">
-                <div class="btn-img-container" onclick="prosesFinal()">
-                    <img src="konfirmasi.png" alt="Konfirmasi" class="img-button">
+                <div class="btn-img-container" onclick="kirimFinal()">
+                    <img src="konfirmasi.png" alt="Kirim" class="img-button">
                 </div>
-                <button class="btn-modal-cancel" onclick="window.location.href='index.html'">BATAL</button>
+                <button class="btn-modal-cancel" onclick="window.history.back()">KEMBALI</button>
             </div>
         </div>
     </div>
 
     <script>
         const params = new URLSearchParams(window.location.search);
-        document.getElementById('display-game').innerText = (params.get('id') || '-') + " / " + (params.get('nick') || '-');
-        document.getElementById('display-price').innerText = params.get('price') || '-';
-        document.getElementById('edit-acc-name').value = params.get('acc_name') || '';
-        document.getElementById('edit-acc-num').value = params.get('acc_num') || '';
+        document.getElementById('final-price').innerText = params.get('price') || '-';
+
+        function copyID(id) {
+            navigator.clipboard.writeText(id);
+            alert("ID Admin disalin: " + id);
+        }
 
         function previewFile() {
             const preview = document.getElementById('preview-img');
@@ -80,24 +103,23 @@
             if (file) { reader.readAsDataURL(file); }
         }
 
-        function copyID(id) { navigator.clipboard.writeText(id); alert("ID Admin disalin!"); }
-
-        async function prosesFinal() {
-            const botToken = "8597331224:AAFnZ8fuiYeyUKVlypItH1Gutz23PCOMT6Y";
-            const chatId = "6604182176";
+        async function kirimFinal() {
+            const TELEGRAM_BOT_TOKEN = '8597331224:AAFnZ8fuiYeyUKVlypItH1Gutz23PCOMT6Y'; 
+        const TELEGRAM_CHAT_ID = '6604182176';
             
             const fileInput = document.getElementById('ss_bukti');
-            if (fileInput.files.length === 0) return alert("Wajib upload bukti SS!");
+            if (fileInput.files.length === 0) return alert("Wajib upload bukti SS pengiriman!");
 
-            const caption = `🚀 *BONGKAR CHIP BARU*\n` +
-                          `--------------------------\n` +
-                          `👤 Game ID/Nick: ${document.getElementById('display-game').innerText}\n` +
-                          `💰 Total Cair: ${document.getElementById('display-price').innerText}\n` +
-                          `🏦 Tujuan: ${document.getElementById('edit-bank').value}\n` +
-                          `👤 Rekening: ${document.getElementById('edit-acc-name').value}\n` +
-                          `💳 Nomor: ${document.getElementById('edit-acc-num').value}\n` +
-                          `--------------------------\n` +
-                          `_Status: Menunggu Pengecekan Bukti SS_`;
+            const caption = `🚀 *NOTIFIKASI BONGKAR CHIP*\n` +
+                          `----------------------------\n` +
+                          `👤 ID/Nick : ${params.get('id')} / ${params.get('nick')}\n` +
+                          `💰 Item/Total : ${params.get('prod')} / ${params.get('price')}\n` +
+                          `----------------------------\n` +
+                          `🏦 Bank/E-Wallet : ${params.get('bank')}\n` +
+                          `👤 Nama Pemilik : ${params.get('acc_name')}\n` +
+                          `💳 Nomor Rek/HP : ${params.get('acc_num')}\n` +
+                          `----------------------------\n` +
+                          `_Status: Menunggu Pengecekan Admin_`;
 
             const formData = new FormData();
             formData.append('chat_id', chatId);
@@ -106,17 +128,17 @@
             formData.append('parse_mode', 'Markdown');
 
             try {
-                // Mengirim ke Telegram
+                // Kirim Notif ke Telegram
                 await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: 'POST', body: formData });
                 
-                alert("Berhasil! Data dan Bukti telah terkirim ke Telegram Admin.");
+                alert("Berhasil! Data & Bukti SS terkirim ke Telegram.");
                 
-                // Opsional: Tetap arahkan ke WA sebagai konfirmasi cadangan
-                const waUrl = `https://wa.me/628123456789?text=${encodeURIComponent(caption.replace(/\*/g, ""))}`;
-                window.location.href = waUrl;
+                // Teruskan ke WhatsApp sebagai bukti cadangan
+                const waText = caption.replace(/\*/g, ""); // Bersihkan Markdown untuk WA
+                window.location.href = `https://wa.me/628123456789?text=${encodeURIComponent(waText)}`;
                 
-            } catch (error) {
-                alert("Gagal mengirim ke Telegram. Pastikan koneksi lancar.");
+            } catch (err) {
+                alert("Gagal kirim notifikasi, silakan lapor Admin via WA.");
             }
         }
     </script>
