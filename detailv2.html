@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konfirmasi Pengiriman - Neo Party</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .struk-list { text-align: left; padding: 10px; }
+        .struk-item { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px dashed #d4a76a; padding: 10px 0; }
+        .struk-label { color: #555; font-weight: bold; font-size: 13px; flex: 1; }
+        .struk-input { flex: 1.5; background: rgba(255, 255, 255, 0.6); border: 1px solid #33ccff; border-radius: 8px; padding: 6px 10px; font-size: 14px; font-weight: 900; color: #2980b9; outline: none; text-align: right; }
+        
+        .admin-box { background: #fff3cd; border: 2px dashed #856404; border-radius: 12px; padding: 10px; margin: 10px 0; text-align: center; }
+        .copy-btn { background: #856404; color: white; border: none; padding: 2px 8px; border-radius: 5px; font-size: 11px; cursor: pointer; margin-left: 5px; }
+        
+        /* Area Upload Bukti */
+        .upload-section { margin-top: 15px; text-align: center; border: 2px dotted #33ccff; border-radius: 15px; padding: 10px; background: rgba(255,255,255,0.3); }
+        #preview-img { width: 100%; max-width: 150px; border-radius: 10px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="cloud-container">
+        <div class="cloud c1"></div>
+        <div class="cloud c2"></div>
+        <div class="cloud c3"></div>
+    </div>
+
+    <div class="mobile-container">
+        <header class="header">
+            <div class="logo-container"><img src="cathoki.png" alt="Cuan" class="main-logo"></div>
+            <h1 class="header-title">KONFIRMASI PENGIRIMAN</h1>
+        </header>
+
+        <div class="admin-box">
+            <p style="margin:0; font-size: 13px; font-weight: bold; color: #856404;">SILAKAN KIRIM CHIP KE ID:</p>
+            <p style="margin:5px 0; font-size: 20px; font-weight: 900; color: #000;">
+                12345678 <button class="copy-btn" onclick="copyID('12345678')">Salin</button>
+            </p>
+        </div>
+
+        <div class="modal-3d-board" style="display: block; position: relative; width: 100%; margin-top: 10px;">
+            <div class="modal-header">STRUK PENCAIRAN</div>
+            <div class="modal-body struk-list">
+                <div class="struk-item"><span class="struk-label">Game ID/Nick:</span><span id="display-game" style="font-weight:900; color:#2980b9; text-align: right; flex: 1.5;">-</span></div>
+                <div class="struk-item"><span class="struk-label">Nama Tujuan:</span><input type="text" id="edit-acc-name" class="struk-input"></div>
+                <div class="struk-item"><span class="struk-label">No. Rekening:</span><input type="number" id="edit-acc-num" class="struk-input"></div>
+                <div class="struk-item"><span class="struk-label">Bank/E-Wallet:</span><input type="text" id="edit-bank" class="struk-input" placeholder="DANA / BCA / BRI"></div>
+                <div class="struk-item"><span class="struk-label">Total Cair:</span><span id="display-price" style="font-weight:900; color:#e67e22; text-align: right; flex: 1.5;">-</span></div>
+
+                <div class="upload-section">
+                    <p style="font-size: 12px; font-weight: bold; margin-bottom: 5px;">Upload Bukti Screenshot Kirim Chip:</p>
+                    <input type="file" id="ss_bukti" accept="image/*" onchange="previewFile()" style="font-size: 11px;">
+                    <img id="preview-img" src="" alt="Pratinjau Bukti">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="btn-img-container" onclick="prosesFinal()">
+                    <img src="konfirmasi.png" alt="Konfirmasi" class="img-button">
+                </div>
+                <button class="btn-modal-cancel" onclick="window.location.href='index.html'">BATAL</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('display-game').innerText = (params.get('id') || '-') + " / " + (params.get('nick') || '-');
+        document.getElementById('display-price').innerText = params.get('price') || '-';
+        document.getElementById('edit-acc-name').value = params.get('acc_name') || '';
+        document.getElementById('edit-acc-num').value = params.get('acc_num') || '';
+
+        function previewFile() {
+            const preview = document.getElementById('preview-img');
+            const file = document.getElementById('ss_bukti').files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => { preview.src = reader.result; preview.style.display = "block"; }
+            if (file) { reader.readAsDataURL(file); }
+        }
+
+        function copyID(id) { navigator.clipboard.writeText(id); alert("ID Admin disalin!"); }
+
+        async function prosesFinal() {
+            const botToken = "8597331224:AAFnZ8fuiYeyUKVlypItH1Gutz23PCOMT6Y";
+            const chatId = "6604182176";
+            
+            const fileInput = document.getElementById('ss_bukti');
+            if (fileInput.files.length === 0) return alert("Wajib upload bukti SS!");
+
+            const caption = `🚀 *BONGKAR CHIP BARU*\n` +
+                          `--------------------------\n` +
+                          `👤 Game ID/Nick: ${document.getElementById('display-game').innerText}\n` +
+                          `💰 Total Cair: ${document.getElementById('display-price').innerText}\n` +
+                          `🏦 Tujuan: ${document.getElementById('edit-bank').value}\n` +
+                          `👤 Rekening: ${document.getElementById('edit-acc-name').value}\n` +
+                          `💳 Nomor: ${document.getElementById('edit-acc-num').value}\n` +
+                          `--------------------------\n` +
+                          `_Status: Menunggu Pengecekan Bukti SS_`;
+
+            const formData = new FormData();
+            formData.append('chat_id', chatId);
+            formData.append('photo', fileInput.files[0]);
+            formData.append('caption', caption);
+            formData.append('parse_mode', 'Markdown');
+
+            try {
+                // Mengirim ke Telegram
+                await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: 'POST', body: formData });
+                
+                alert("Berhasil! Data dan Bukti telah terkirim ke Telegram Admin.");
+                
+                // Opsional: Tetap arahkan ke WA sebagai konfirmasi cadangan
+                const waUrl = `https://wa.me/628123456789?text=${encodeURIComponent(caption.replace(/\*/g, ""))}`;
+                window.location.href = waUrl;
+                
+            } catch (error) {
+                alert("Gagal mengirim ke Telegram. Pastikan koneksi lancar.");
+            }
+        }
+    </script>
+</body>
+</html>
