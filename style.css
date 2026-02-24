@@ -1,0 +1,169 @@
+:root {
+    --gold: #d4a76a;
+    --gold-dark: #b17e44;
+}
+
+/* 1. BACKGROUND UTAMA & KONFIGURASI LAYAR */
+body { 
+    margin: 0; 
+    /* Latar belakang gambar tetap (fixed) agar tidak ikut bergeser saat scroll */
+    background: #1a2a3a url('background.jpg') no-repeat center center fixed; 
+    background-size: cover;
+    font-family: sans-serif; 
+    overflow-x: hidden; /* Mencegah scroll ke samping akibat animasi awan */
+}
+
+/* 2. CONTAINER MOBILE DENGAN EFEK GLOW (SISI TERANG) */
+.mobile-container {
+    width: 100%; 
+    max-width: 480px; 
+    margin: 0 auto;
+    min-height: 100vh; 
+    padding: 15px; 
+    box-sizing: border-box;
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    
+    /* 1. MENGGANTI BG DI DALAM BINGKAI */
+    /* Pastikan file 'background.jpg' ada di folder yang sama */
+    background: url('bg.jpg') no-repeat center center; 
+    background-size: 100% 100%;
+    
+    position: relative;
+    z-index: 10;
+    
+    /* 2. EFEK SISI TERANG (INNER GLOW) */
+    /* 'inset' membuat cahaya muncul di pinggiran dalam bingkai */
+    box-shadow: 
+        inset -15px 0 35px rgba(255, 255, 255, 0.3), 
+        inset 15px 0 35px rgba(255, 255, 255, 0.3),
+        0 10px 30px rgba(0, 0, 0, 0.5);
+        
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    border-right: 1px solid rgba(255, 255, 255, 0.4);
+    overflow-x: hidden;
+}
+
+/* Tambahkan lapisan warna transparan agar konten tetap terbaca jelas di atas gambar */
+.mobile-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(180deg, rgba(94, 200, 229, 0.6) 0%, rgba(41, 128, 185, 0.6) 100%);
+    z-index: -1;
+}
+
+/* 3. ANIMASI AWAN MELINTAS (CSS MURNI) */
+.cloud-container {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; /* Agar klik tetap tembus ke tombol di bawahnya */
+    z-index: 1;
+}
+
+.cloud {
+    position: absolute;
+    background: white;
+    width: 150px; height: 50px;
+    border-radius: 50px;
+    opacity: 0.25;
+    filter: blur(8px);
+}
+.cloud::after, .cloud::before {
+    content: ''; position: absolute; background: white;
+    border-radius: 50%;
+}
+.cloud::after { width: 70px; height: 70px; top: -30px; left: 20px; }
+.cloud::before { width: 50px; height: 50px; top: -20px; left: 70px; }
+
+/* Pengaturan arah dan kecepatan awan */
+.c1 { top: 15%; animation: moveRight 35s linear infinite; }
+.c2 { top: 45%; animation: moveLeft 45s linear infinite; opacity: 0.15; }
+.c3 { top: 75%; animation: moveRight 40s linear infinite; }
+
+@keyframes moveRight {
+    from { transform: translateX(-250px); }
+    to { transform: translateX(100vw); }
+}
+@keyframes moveLeft {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(-250px); }
+}
+
+/* 4. LOGO & HEADER */
+.logo-container { width: 100%; display: flex; justify-content: center; margin-top: 10px; }
+.main-logo { width: 45%; max-width: 100px; height: auto; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2)); }
+.header-title { color: white; text-align: center; font-size: 1.1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); margin: 15px 0; }
+
+/* 5. TOMBOL & INTERAKSI 3D */
+.btn-download-3d {
+    background: linear-gradient(to bottom, #f39c12, #e67e22);
+    border: none; color: white; padding: 12px 40px; border-radius: 15px;
+    font-weight: bold; box-shadow: 0 5px 0 #9c5d00; cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.card-3d {
+    background: #fff7e6; border: 4px solid var(--gold); border-radius: 20px;
+    padding: 25px 15px 15px; width: 100%; margin-top: 30px; position: relative;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.card-tag {
+    position: absolute; top: -15px; left: 50%; transform: translateX(-50%);
+    background: var(--gold-dark); color: white; padding: 4px 20px; border-radius: 10px; font-weight: bold;
+}
+.input-group label { display: block; font-weight: bold; color: #555; margin-bottom: 5px; }
+.input-group input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ccc; margin-bottom: 12px; box-sizing: border-box; }
+
+.btn-img-container { cursor: pointer; transition: all 0.2s; display: inline-block; width: 100%; text-align: center; }
+.img-button { width: 180px; height: auto; filter: drop-shadow(0 4px 4px rgba(0,0,0,0.2)); }
+
+/* 6. TABS & GRID HARGA */
+.tabs-3d { display: flex; gap: 10px; margin: 20px 0; }
+.tab-btn { background: #fdf2d0; padding: 8px 25px; border-radius: 20px; color: #999; font-weight: bold; }
+.tab-btn.active { background: #f39c12; color: white; box-shadow: 0 3px 0 #c67605; }
+
+.price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; padding-bottom: 30px; }
+.price-card {
+    background: rgba(0,0,0,0.3); /* Dibuat sedikit lebih gelap agar koin lebih menonjol */
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 15px; padding: 12px; cursor: pointer; position: relative;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.price-card.hot { border: 2px solid #f1c40f; }
+.ribbon-hot { position: absolute; top: 0; right: 0; width: 45px; z-index: 10; }
+.koin-icon-payload { width: 30px; height: 30px; margin-right: 8px; }
+
+.card-content { display: flex; align-items: center; color: white; }
+.text-info .val { display: block; font-weight: bold; font-size: 1.2rem; }
+.text-info .prc { font-size: 0.8rem; opacity: 0.9; }
+
+/* 7. MODAL (BOARD PESANAN) */
+.modal-overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center; }
+.modal-3d-board { 
+    background-image: url('board.png'); background-size: 100% 100%;
+    width: 85%; max-width: 380px; border-radius: 20px; padding: 30px 20px;
+    animation: pop 0.3s forwards;
+}
+.modal-header { color: #5d4037; text-align: center; font-weight: bold; font-size: 1.3rem; margin-bottom: 10px; }
+.detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; border-bottom: 1px dashed #5d4037; color: #333; padding-bottom: 4px; }
+.modal-footer { padding-top: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.btn-modal-cancel { background: #bdc3c7; border: none; padding: 8px 30px; border-radius: 10px; font-weight: bold; box-shadow: 0 4px 0 #95a5a6; cursor: pointer; }
+
+/* 8. EFEK HOVER & ACTIVE (MENONJOL) */
+.btn-download-3d:hover, .btn-img-container:hover { transform: scale(1.05); filter: brightness(1.1); }
+.price-card:hover { transform: translateY(-5px) scale(1.02); background: rgba(255, 255, 255, 0.2); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+
+.btn-download-3d:active, .btn-img-container:active, .price-card:active { transform: scale(0.95); box-shadow: 0 2px 0 rgba(0,0,0,0.2); }
+
+.footer-note-3d { background: rgba(0,0,0,0.2); color: white; padding: 15px; border-radius: 15px; text-align: center; font-size: 0.85rem; width: 100%; box-sizing: border-box; }
+
+@keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* Responsivitas Layar Kecil */
+@media (max-width: 360px) {
+    .header-title { font-size: 0.95rem; }
+    .main-logo { width: 75px; }
+    .img-button { width: 150px; }
+}
